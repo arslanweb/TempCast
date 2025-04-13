@@ -1,1 +1,2 @@
-// Flows will be imported for their side effects in this file.
+import '@/ai/flows/prompt-based-sensor-setup.ts';
+import '@/ai/flows/temperature-fluctuation-predictions.ts';
