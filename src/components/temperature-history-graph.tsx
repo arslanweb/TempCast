@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ReferenceLine,
 } from 'recharts';
 
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
@@ -16,6 +17,7 @@ import {getTemperatureHistory} from '@/services/temperature-sensor';
 
 export function TemperatureHistoryGraph() {
   const [temperatureData, setTemperatureData] = useState([]);
+  const [threshold, setThreshold] = useState<number>(30); // Default threshold value
 
   useEffect(() => {
     const fetchTemperatureHistory = async () => {
@@ -59,6 +61,7 @@ export function TemperatureHistoryGraph() {
             <YAxis />
             <Tooltip />
             <Area type="monotone" dataKey="temperature" stroke="#8884d8" fill="#d3d3d3" />
+             <ReferenceLine y={threshold} stroke="red" strokeDasharray="3 3" label={{ position: 'top', value: 'Threshold', fill: 'red' }} />
           </AreaChart>
         </ResponsiveContainer>
       </CardContent>
