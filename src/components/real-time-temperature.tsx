@@ -27,12 +27,14 @@ export function RealTimeTemperature() {
       <CardHeader>
         <CardTitle className="flex items-center justify-center space-x-2 text-2xl font-bold">
           <Thermometer className="h-6 w-6 text-primary" />
-          <span>Real-Time Temperature</span>
+          <span>Temperature</span>
         </CardTitle>
+        <p className="text-sm text-muted-foreground">Current temperature reading</p>
       </CardHeader>
       <CardContent className="text-4xl font-bold text-center">
-        {temperature !== null ? `${temperature}°C` : "Loading..."}
+        {temperature !== null ? `${temperature.toFixed(2)}°C` : "Loading..."}
       </CardContent>
     </Card>
   );
 }
+

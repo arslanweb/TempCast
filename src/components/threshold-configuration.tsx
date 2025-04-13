@@ -4,19 +4,17 @@ import {useState, useEffect} from 'react';
 import {AlertCircle} from 'lucide-react';
 
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
-import {Input} from '@/components/ui/input';
-import {Button} from '@/components/ui/button';
-import {getLatestTemperature} from '@/services/temperature-sensor';
+import {Slider} from '@/components/ui/slider';
 
 export function ThresholdConfiguration() {
-  const [threshold, setThreshold] = useState<number>(25);
+  const [threshold, setThreshold] = useState<number>(30);
   const [temperature, setTemperature] = useState<number | null>(null);
   const [alert, setAlert] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchTemperature = async () => {
-      const latestTemperature = await getLatestTemperature();
-      setTemperature(latestTemperature.celsius);
+      // TODO: Fetch real-time temperature from an API endpoint or sensor
+      setTemperature(28);
     };
 
     fetchTemperature();
@@ -28,8 +26,8 @@ export function ThresholdConfiguration() {
     }
   }, [temperature, threshold]);
 
-  const handleThresholdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setThreshold(Number(event.target.value));
+  const handleThresholdChange = (value: number[]) => {
+    setThreshold(value[0]);
   };
 
   return (
@@ -39,20 +37,22 @@ export function ThresholdConfiguration() {
           <AlertCircle className="h-6 w-6 text-destructive" />
           <span>Threshold Configuration</span>
         </CardTitle>
+        <p className="text-sm text-muted-foreground text-center">Set the threshold for temperature alerts</p>
       </CardHeader>
       <CardContent className="flex flex-col space-y-4">
-        <div>
+        <div className="flex items-center justify-between">
           <label htmlFor="threshold" className="block text-sm font-medium text-gray-700">
-            Temperature Threshold (°C):
+            Threshold:
           </label>
-          <Input
-            type="number"
-            id="threshold"
-            className="mt-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300"
-            value={threshold}
-            onChange={handleThresholdChange}
-          />
+          <span>{threshold}°C</span>
         </div>
+        <Slider
+          defaultValue={[threshold]}
+          max={50}
+          min={10}
+          step={1}
+          onValueChange={handleThresholdChange}
+        />
         <div>
           {alert ? (
             <div className="text-red-500 font-bold">
